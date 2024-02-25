@@ -19,7 +19,9 @@ Using [lazy](https://github.com/folke/lazy.nvim):
 > However, note that this plugin is still in an experimental phase, so you **must** call ``setup()`` to utilize its features.
 
 ## Features
-By default, pressing ``<C-e>`` will toggle Clippy's floating window, utilizing the command ``require('clippy.ui'):toggle_menu()``. In there you can add whatever text you'd like to keep, as Clippy saves all of it's contents (automatically, upon closing) to ``~/.cache/nvim/clippy.log``.
+By default, pressing ``<C-e>`` will toggle Clippy's floating window, utilizing the command ``require('clippy.ui'):toggle_menu()``. 
+
+In there you can add whatever text you'd like to keep handy, as Clippy saves all of it's contents (automatically, upon closing) to ``~/.cache/nvim/clippy.log``.
 
 Currently, very few things are implemented, but I am actively working on implementing yank autocommands.
 
