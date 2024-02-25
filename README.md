@@ -16,7 +16,8 @@ Using [lazy](https://github.com/folke/lazy.nvim):
 }
 ```
 
-> However, note that this plugin is still in an experimental phase, so you **must** call ``setup()`` to utilize its features.
+> **Note:** 
+> This plugin is still in an experimental phase, so you **must** call ``setup()`` to properly use it.
 
 ## Features
 By default, pressing ``<C-e>`` will toggle Clippy's floating window, utilizing the command ``require('clippy.ui'):toggle_menu()``. 
