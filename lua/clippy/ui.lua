@@ -37,6 +37,9 @@ function ClippyUI:new()
 	-- Get our cursor to our new floating window
 	vim.api.nvim_set_current_win(win_id)
 
+	vim.cmd([[silent set wrap]])
+	vim.cmd([[silent set nu]])
+
 	self.buffer_id = buffer_id
 	self.win_id = win_id
 	self.win_open = true
