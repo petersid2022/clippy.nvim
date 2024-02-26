@@ -71,9 +71,8 @@ function ClippyUI:close()
 		return
 	end
 
-	-- Get floating buffer contents before closing
+	-- Get the contents of the floating window before closing
 	local lines = utils.buffer_to_string(self.buffer_id)
-
 	local file = io.open(running_state_file, 'w')
 
 	if file then
