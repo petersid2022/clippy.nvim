@@ -34,15 +34,17 @@ function ClippyUI:new()
 	local buffer_id = vim.api.nvim_create_buf(false, false)
 	local win_id = vim.api.nvim_open_win(buffer_id, false, default_options)
 
+	-- Set the window state to open
+	self.win_open = true
+
 	-- Get our cursor to our new floating window
 	vim.api.nvim_set_current_win(win_id)
 
-	vim.cmd([[silent set wrap]])
-	vim.cmd([[silent set nu]])
+	-- Set wrap + line number
+	vim.cmd([[silent set wrap | set nu]])
 
 	self.buffer_id = buffer_id
 	self.win_id = win_id
-	self.win_open = true
 
 	local tbl = {}
 	local file = io.open(running_state_file, 'r')
@@ -59,10 +61,7 @@ function ClippyUI:new()
 		file:close()
 	end
 
-	return {
-		buffer_id = buffer_id,
-		win_id = win_id
-	}
+	return self
 end
 
 function ClippyUI:close()

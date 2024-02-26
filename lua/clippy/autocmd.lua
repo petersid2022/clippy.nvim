@@ -1,23 +1,24 @@
-local autocmd = {}
+local M = {}
+
 local config_path = vim.fn.stdpath("cache")
 local running_state_file = string.format("%s/clippy.log", config_path)
 
 ---@param str string
 ---@return string
 local parseText = function(str)
-	-- Match any type of newline
-    local pattern = "[\\r\\n\\u{2028}\\u{2029}]+"
-    str = string.gsub(str, pattern, "")
-    str = string.gsub(str, "\"", "")
-    return str
+	str = string.gsub(str, "\\n", "\n")
+	str = string.gsub(str, "\"", "")
+	return str
 end
 
-function autocmd:yank()
+function M:create_autocmd()
+	vim.api.nvim_create_augroup("clippy", { clear = true })
 	vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
+		group = "clippy",
 		callback = function()
 			-- See :h registers
 			local yank = parseText(vim.inspect(vim.fn.getreg('"+')))
-			-- Open the file in append/update mode, 
+			-- Open the file in append/update mode,
 			-- where all the previous data is preserved,
 			-- and writing is only allowed at the end of file.
 			local file = io.open(running_state_file, 'a+')
@@ -33,4 +34,4 @@ function autocmd:yank()
 	})
 end
 
-return autocmd
+return M
