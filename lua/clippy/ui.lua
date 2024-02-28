@@ -46,16 +46,22 @@ function ClippyUI:new()
 	self.buffer_id = buffer_id
 	self.win_id = win_id
 
-	local tbl = {}
+	local file_contents = {}
 	local file = io.open(running_state_file, 'r')
 
 	if file then
+		-- Write the contents of the file to the file_contents table
 		for line in file:lines() do
-			table.insert(tbl, line)
+			table.insert(file_contents, line)
 		end
 
+		file_contents = utils.reverse_array(file_contents)
+
+		-- Clear existing lines in the buffer
+		vim.api.nvim_buf_set_lines(self.buffer_id, 0, -1, false, {})
+
 		-- Write to our floating window
-		vim.api.nvim_buf_set_lines(self.buffer_id, 0, -1, false, tbl)
+		vim.api.nvim_buf_set_lines(self.buffer_id, 0, 15, false, file_contents)
 
 		-- Close the file when the loop ends
 		file:close()
@@ -72,18 +78,19 @@ function ClippyUI:close()
 
 	-- Get the contents of the floating window before closing
 	local lines = utils.buffer_to_string(self.buffer_id)
+
+	lines = utils.reverse_array(lines)
+
 	local file = io.open(running_state_file, 'w')
 
 	if file then
-		if lines then
-			for _, line in pairs(lines) do
-				-- Write the new state
-				file:write(line, '\n')
+		-- Keep the last 15 items you yanked
+		for line = #lines - 14, #lines do
+			if lines[line] then
+				file:write(lines[line], '\n')
 			end
-			-- Close the file handler after we're done looping
-			-- through the floating buffer contents
-			file:close()
 		end
+		file:close()
 	end
 
 	-- Deleting buffer and window handlers
