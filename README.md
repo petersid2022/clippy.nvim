@@ -6,8 +6,8 @@ Written in Lua.
 ## Installation
 Using [lazy](https://github.com/folke/lazy.nvim):
 ```
-{
-    "petersid2022/clippy.nvim/",
+return {
+    "petersid2022/clippy.nvim",
     config = function ()
         require('clippy').setup({})
     end
